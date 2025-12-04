@@ -1,5 +1,0 @@
-failed to import ttsfrd, use wetext instead
-failed to import wetext (DLL load failed while importing _kaldifst: 动态链接库(DLL)初始化例程失败。), fallback to identity normalizer
-* Running on local URL:  http://0.0.0.0:8000
-
-To create a public link, set `share=True` in `launch()`.
