@@ -29,9 +29,27 @@ try:
     use_ttsfrd = True
 except ImportError:
     print("failed to import ttsfrd, use wetext instead")
-    from wetext import Normalizer as ZhNormalizer
-    from wetext import Normalizer as EnNormalizer
-    use_ttsfrd = False
+    try:
+        from wetext import Normalizer as ZhNormalizer
+        from wetext import Normalizer as EnNormalizer
+        use_ttsfrd = False
+        use_wetext = True
+    except Exception as e:
+        print(f"failed to import wetext ({e}), fallback to identity normalizer")
+
+        class IdentityNormalizer:
+            """No-op text normalizer used when both ttsfrd and wetext are unavailable."""
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def normalize(self, text):
+                return text
+
+        ZhNormalizer = IdentityNormalizer
+        EnNormalizer = IdentityNormalizer
+        use_ttsfrd = False
+        use_wetext = False
 from cosyvoice.utils.file_utils import logging
 from cosyvoice.utils.frontend_utils import contains_chinese, replace_blank, replace_corner_mark, remove_bracket, spell_out_number, split_paragraph, is_only_punctuation
 
